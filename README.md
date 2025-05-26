@@ -318,3 +318,7 @@ Por ejemplo, resolver una recurrencia puede mostrar que el algoritmo es O(n), es
 - Algoritmos: qué son y qué tipos existen - Ferrovial. (2025, 13 febrero). Ferrovial. https://www.ferrovial.com/es/stem/algoritmos/
 - Análisis de algoritmos | Algoritmos y Estructura de Datos. (s. f.). https://www.luchonet.com.ar/aed/?page_id=209
 - Chaves, J. (2025, 6 enero). Complejidad computacional. Diccionario Informático | Soporte Técnico. https://jeffrychaves.com/diccionario/complejidad-computacional/
+- Learn Asymptotic Notation in Y Minutes. (s. f.). https://learnxinyminutes.com/es/asymptotic-notation/
+- Análisis amortizado | Aprende Programación Competitiva. (s. f.). https://aprende.olimpiada-informatica.org/algoritmia-analisis-amortizado
+- ¿Cuál es la diferencia entre la notación de la gran O, la gran omega y la gran theta? (2024, 29 febrero). www.linkedin.com. https://es.linkedin.com/advice/3/what-difference-between-big-o-omega-theta-notation-ig29e?lang=es&lang=es
+- Building, C. (s. f.). Best, worst, and average case analysis. https://www-complexica-com.translate.goog/narrow-ai-glossary/best-worst-average-case-analysis?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc
