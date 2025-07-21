@@ -312,6 +312,229 @@ Se puede resolver con métodos como expansión, maestro o sustitución para obte
 
 Por ejemplo, resolver una recurrencia puede mostrar que el algoritmo es O(n), es decir, crece linealmente con el tamaño de la entrada.
 
+# 📅 SEMANA 9
+
+## Algoritmos Voraces
+
+Son un tipo de algoritmo de optimización que toma decisiones basadas en la mejor opción disponible en cada paso, sin considerar el impacto futuro de esas decisiones. A pesar de su simplicidad, no siempre garantiza la solución óptima global, pero puede ser eficiente para encontrar buenas soluciones en muchos problemas. 
+
+### Características principales:
+
+- **Enfoque local:**
+  
+  Se centra en la mejor opción en cada momento, sin mirar hacia atrás o considerar las consecuencias a largo plazo.
+
+- **No retrospectivo:**
+
+  Una vez tomada una decisión, no se reconsidera ni se intenta modificar.
+
+- **Eficiencia:**
+
+  Suelen ser rápidos y eficientes, a menudo con complejidad temporal lineal o logarítmica.
+
+- **No siempre óptimo:**
+
+  No garantizan la solución óptima global en todos los casos, aunque pueden producir resultados cercanos a la optimalidad. 
+
+## Grafos no dirigidos:
+
+  Son una estructura matemática donde los nodos (vértices) están conectados por líneas (aristas) que no tienen dirección. Esto significa que la relación entre dos nodos conectados es bidireccional; si el nodo A está conectado al nodo B, también se considera que el nodo B está conectado al nodo A. En esencia, no hay un sentido definido en la conexión, a diferencia de los grafos dirigidos donde las aristas tienen una dirección específica.
+
+### Ejemplo:
+
+Redes sociales donde la amistad es mutua, mapas de carreteras donde las carreteras conectan ciudades en ambas direcciones, o redes de contactos donde si dos personas son contactos, se consideran mutuamente conectados. 
+
+## Arbol de recubrimiento mínimo:
+
+Este codigo es el algoritmo de Kruskal implementado en java
+
+```java
+// Programa en Java para implementar
+// el Algoritmo de Kruskal
+import java.util.*;
+
+class Arista implements Comparable<Arista> {
+    int origen, destino, peso;
+
+    public Arista(int origen, int destino, int peso) {
+        this.origen = origen;
+        this.destino = destino;
+        this.peso = peso;
+    }
+
+    // Comparar dos aristas en base a su peso
+    @Override
+    public int compareTo(Arista otraArista) {
+        return this.peso - otraArista.peso;
+    }
+}
+
+class Grafo {
+    int numVertices, numAristas;
+    Arista[] aristas;
+
+    // Constructor
+    public Grafo(int numVertices, int numAristas) {
+        this.numVertices = numVertices;
+        this.numAristas = numAristas;
+        aristas = new Arista[numAristas];
+    }
+
+    // Función para encontrar el conjunto de un elemento
+    int encontrar(int[] padre, int i) {
+        if (padre[i] == -1)
+            return i;
+        return encontrar(padre, padre[i]);
+    }
+
+    // Función para unir dos conjuntos
+    void unir(int[] padre, int x, int y) {
+        int conjuntoX = encontrar(padre, x);
+        int conjuntoY = encontrar(padre, y);
+        padre[conjuntoX] = conjuntoY;
+    }
+
+    // Función para ejecutar el algoritmo de Kruskal y encontrar el árbol de expansión mínima
+    void kruskalAEM() {
+        Arista[] resultado = new Arista[numVertices - 1];
+        int e = 0; // Índice para resultado[]
+        int i = 0; // Índice para aristas ordenadas
+
+        // Ordenar todas las aristas por peso en orden creciente
+        Arrays.sort(aristas);
+
+        int[] padre = new int[numVertices];
+        Arrays.fill(padre, -1);
+
+        // Se deben tomar exactamente (número de vértices - 1) aristas
+        while (e < numVertices - 1) {
+            Arista siguienteArista = aristas[i++];
+
+            int x = encontrar(padre, siguienteArista.origen);
+            int y = encontrar(padre, siguienteArista.destino);
+
+            if (x != y) {
+                resultado[e++] = siguienteArista;
+                unir(padre, x, y);
+            }
+        }
+
+        // Imprimir el árbol de expansión mínima
+        System.out.println("Aristas en el árbol de expansión mínima:");
+        for (i = 0; i < e; ++i)
+            System.out.println(resultado[i].origen + " - " 
+                               + resultado[i].destino + ": " + resultado[i].peso);
+    }
+}
+
+public class Principal {
+    public static void main(String[] args) {
+        int vertices = 4; // Número de vértices
+        int aristas = 5;  // Número de aristas
+
+        Grafo grafo = new Grafo(vertices, aristas);
+
+        // Agregar aristas
+        grafo.aristas[0] = new Arista(0, 1, 10);
+        grafo.aristas[1] = new Arista(0, 2, 6);
+        grafo.aristas[2] = new Arista(0, 3, 5);
+        grafo.aristas[3] = new Arista(1, 3, 15);
+        grafo.aristas[4] = new Arista(2, 3, 4);
+
+        // Ejecutar el algoritmo de Kruskal
+        grafo.kruskalAEM();
+    }
+}
+```
+
+# 📅 SEMANA 10
+
+## Grafos no dirigidos:
+
+Son una estructura de datos que representa relaciones entre elementos, donde cada relación (arista) tiene una dirección específica, indicando un camino de un elemento (vértice) a otro. A diferencia de los grafos no dirigidos, donde las relaciones son bidireccionales, los grafos dirigidos representan relaciones unidireccionales, como el flujo de tráfico en una calle o las dependencias en un proyecto de software.
+
+### Ventajas de usar grafos dirigidos:
+- **Modelado preciso:
+
+  Permiten representar relaciones unidireccionales de manera precisa, lo que no es posible con grafos no dirigidos. 
+
+- **Análisis eficiente:**
+
+  Facilitan el análisis de propiedades específicas de las relaciones, como la dirección del flujo o las dependencias. 
+
+- **Aplicaciones diversas:**
+
+  Se utilizan en una amplia gama de aplicaciones, desde redes sociales hasta sistemas de recomendación.
+
+## Algoritmo de Dijkstra
+
+Algoritmo implementado en java
+
+```java
+import java.util.Arrays;
+
+public class AlgoritmoDijkstra {
+    static final int INF = Integer.MAX_VALUE; // Valor que representa "infinito"
+
+    public static void dijkstra(int[][] grafo, int origen) {
+        int n = grafo.length;
+        int[] distancias = new int[n];
+        boolean[] visitado = new boolean[n];
+
+        Arrays.fill(distancias, INF); // Inicializa todas las distancias como infinitas
+        distancias[origen] = 0;       // La distancia al nodo origen es 0
+
+        for (int contador = 0; contador < n - 1; contador++) {
+            int u = obtenerMinimaDistancia(distancias, visitado);
+            visitado[u] = true;
+
+            // Actualiza las distancias de los vértices adyacentes al vértice seleccionado
+            for (int v = 0; v < n; v++) {
+                if (!visitado[v] && grafo[u][v] != 0 && distancias[u] != INF &&
+                        distancias[u] + grafo[u][v] < distancias[v]) {
+                    distancias[v] = distancias[u] + grafo[u][v];
+                }
+            }
+        }
+
+        imprimirSolucion(distancias);
+    }
+
+    // Función auxiliar para encontrar el vértice con la menor distancia aún no visitado
+    private static int obtenerMinimaDistancia(int[] distancias, boolean[] visitado) {
+        int minimo = INF, indiceMinimo = -1;
+        for (int v = 0; v < distancias.length; v++) {
+            if (!visitado[v] && distancias[v] <= minimo) {
+                minimo = distancias[v];
+                indiceMinimo = v;
+            }
+        }
+        return indiceMinimo;
+    }
+
+    // Función para imprimir la solución final
+    private static void imprimirSolucion(int[] distancias) {
+        System.out.println("Distancias más cortas desde el nodo origen:");
+        for (int i = 0; i < distancias.length; i++) {
+            System.out.println("Hacia " + i + ": " + distancias[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        int[][] grafo = {
+                {0, 2, 0, 4, 0},
+                {2, 0, 5, 0, 0},
+                {0, 5, 0, 8, 0},
+                {4, 0, 8, 0, 3},
+                {0, 0, 0, 3, 0}
+        };
+
+        dijkstra(grafo, 0); // Ejecutar Dijkstra desde el nodo 0
+    }
+}
+```
+
+
 
 # REFERENCIAS BIBLIOGRÁFICAS
 
