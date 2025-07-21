@@ -312,41 +312,51 @@ Se puede resolver con métodos como expansión, maestro o sustitución para obte
 
 Por ejemplo, resolver una recurrencia puede mostrar que el algoritmo es O(n), es decir, crece linealmente con el tamaño de la entrada.
 
-# 📅 SEMANA 9
+# 📚 Semana 9: Algoritmos Voraces y Árbol de Recubrimiento Mínimo
 
-## Algoritmos Voraces
+## ⚙️ Algoritmos Voraces
 
-Son un tipo de algoritmo de optimización que toma decisiones basadas en la mejor opción disponible en cada paso, sin considerar el impacto futuro de esas decisiones. A pesar de su simplicidad, no siempre garantiza la solución óptima global, pero puede ser eficiente para encontrar buenas soluciones en muchos problemas. 
+Los **algoritmos voraces** son una clase de algoritmos de optimización que construyen soluciones paso a paso, eligiendo en cada etapa la opción que parece ser la mejor **sin considerar efectos futuros**. Aunque su simplicidad es su principal ventaja, **no siempre garantizan una solución óptima global**, pero sí logran soluciones eficientes en muchos problemas prácticos.
 
-### Características principales:
+### 🧩 Características principales:
 
-- **Enfoque local:**
-  
-  Se centra en la mejor opción en cada momento, sin mirar hacia atrás o considerar las consecuencias a largo plazo.
+- **🔎 Enfoque local:**  
+  El algoritmo toma decisiones basadas en la mejor elección disponible en ese instante, sin revisar decisiones pasadas.
 
-- **No retrospectivo:**
+- **🚫 No retrospectivo:**  
+  Una vez tomada una decisión, no se revierte ni se evalúan caminos alternativos.
 
-  Una vez tomada una decisión, no se reconsidera ni se intenta modificar.
+- **⚡ Eficiencia:**  
+  Suelen tener **baja complejidad computacional**, típicamente lineal o logarítmica, lo cual los hace muy rápidos.
 
-- **Eficiencia:**
+- **🎯 Solución no siempre óptima:**  
+  No siempre proporcionan la mejor solución global, pero **pueden acercarse bastante** y ser suficientes en la práctica.
 
-  Suelen ser rápidos y eficientes, a menudo con complejidad temporal lineal o logarítmica.
+---
 
-- **No siempre óptimo:**
+## 🌐 Grafos No Dirigidos
 
-  No garantizan la solución óptima global en todos los casos, aunque pueden producir resultados cercanos a la optimalidad. 
+Un **grafo no dirigido** es una estructura matemática formada por nodos (**vértices**) conectados por líneas (**aristas**) **sin dirección**. Es decir, si un nodo `A` está conectado a un nodo `B`, entonces también se considera que `B` está conectado a `A`.
 
-## Grafos no dirigidos:
+### 📌 Ejemplo de aplicación:
 
-  Son una estructura matemática donde los nodos (vértices) están conectados por líneas (aristas) que no tienen dirección. Esto significa que la relación entre dos nodos conectados es bidireccional; si el nodo A está conectado al nodo B, también se considera que el nodo B está conectado al nodo A. En esencia, no hay un sentido definido en la conexión, a diferencia de los grafos dirigidos donde las aristas tienen una dirección específica.
+- Redes sociales donde la amistad es mutua.  
+- Mapas de carreteras donde el tránsito es posible en ambas direcciones.  
+- Redes de contactos entre personas donde la conexión es bidireccional.  
 
-### Ejemplo:
+---
 
-Redes sociales donde la amistad es mutua, mapas de carreteras donde las carreteras conectan ciudades en ambas direcciones, o redes de contactos donde si dos personas son contactos, se consideran mutuamente conectados. 
+## 🌲 Árbol de Recubrimiento Mínimo
 
-## Arbol de recubrimiento mínimo:
+El **Árbol de Recubrimiento Mínimo (Minimum Spanning Tree, MST)** es un subconjunto de las aristas de un grafo que conecta todos los vértices sin formar ciclos y con el **menor peso total posible**.
 
-Este codigo es el algoritmo de Kruskal implementado en java
+Uno de los algoritmos más conocidos para encontrarlo es el **algoritmo de Kruskal**, el cual es un ejemplo clásico de algoritmo voraz.
+
+---
+
+## 💻 Ejemplo en Java: Algoritmo de Kruskal
+
+A continuación, se muestra la implementación del algoritmo de Kruskal en Java, utilizado para encontrar el Árbol de Recubrimiento Mínimo en un grafo no dirigido y ponderado:
 
 ```java
 // Programa en Java para implementar
@@ -373,40 +383,33 @@ class Grafo {
     int numVertices, numAristas;
     Arista[] aristas;
 
-    // Constructor
     public Grafo(int numVertices, int numAristas) {
         this.numVertices = numVertices;
         this.numAristas = numAristas;
         aristas = new Arista[numAristas];
     }
 
-    // Función para encontrar el conjunto de un elemento
     int encontrar(int[] padre, int i) {
         if (padre[i] == -1)
             return i;
         return encontrar(padre, padre[i]);
     }
 
-    // Función para unir dos conjuntos
     void unir(int[] padre, int x, int y) {
         int conjuntoX = encontrar(padre, x);
         int conjuntoY = encontrar(padre, y);
         padre[conjuntoX] = conjuntoY;
     }
 
-    // Función para ejecutar el algoritmo de Kruskal y encontrar el árbol de expansión mínima
     void kruskalAEM() {
         Arista[] resultado = new Arista[numVertices - 1];
-        int e = 0; // Índice para resultado[]
-        int i = 0; // Índice para aristas ordenadas
+        int e = 0, i = 0;
 
-        // Ordenar todas las aristas por peso en orden creciente
         Arrays.sort(aristas);
 
         int[] padre = new int[numVertices];
         Arrays.fill(padre, -1);
 
-        // Se deben tomar exactamente (número de vértices - 1) aristas
         while (e < numVertices - 1) {
             Arista siguienteArista = aristas[i++];
 
@@ -419,7 +422,6 @@ class Grafo {
             }
         }
 
-        // Imprimir el árbol de expansión mínima
         System.out.println("Aristas en el árbol de expansión mínima:");
         for (i = 0; i < e; ++i)
             System.out.println(resultado[i].origen + " - " 
@@ -429,47 +431,58 @@ class Grafo {
 
 public class Principal {
     public static void main(String[] args) {
-        int vertices = 4; // Número de vértices
-        int aristas = 5;  // Número de aristas
+        int vertices = 4;
+        int aristas = 5;
 
         Grafo grafo = new Grafo(vertices, aristas);
 
-        // Agregar aristas
         grafo.aristas[0] = new Arista(0, 1, 10);
         grafo.aristas[1] = new Arista(0, 2, 6);
         grafo.aristas[2] = new Arista(0, 3, 5);
         grafo.aristas[3] = new Arista(1, 3, 15);
         grafo.aristas[4] = new Arista(2, 3, 4);
 
-        // Ejecutar el algoritmo de Kruskal
         grafo.kruskalAEM();
     }
 }
 ```
 
-# 📅 SEMANA 10
+# 📚 Semana 10: Grafos Dirigidos y Algoritmo de Dijkstra
 
-## Grafos no dirigidos:
+## 🔁 Grafos Dirigidos
 
-Son una estructura de datos que representa relaciones entre elementos, donde cada relación (arista) tiene una dirección específica, indicando un camino de un elemento (vértice) a otro. A diferencia de los grafos no dirigidos, donde las relaciones son bidireccionales, los grafos dirigidos representan relaciones unidireccionales, como el flujo de tráfico en una calle o las dependencias en un proyecto de software.
+Los **grafos dirigidos** son estructuras de datos que representan relaciones **unidireccionales** entre elementos. A diferencia de los grafos no dirigidos, donde la conexión entre dos nodos es mutua, en los grafos dirigidos **cada arista tiene una dirección**, indicando un flujo específico desde un nodo hacia otro.
 
-### Ventajas de usar grafos dirigidos:
+### 🧠 Ventajas de los grafos dirigidos:
 
-- **Modelado preciso:**
+- **🎯 Modelado preciso:**  
+  Representan relaciones unidireccionales con exactitud, útiles para casos donde no hay reciprocidad.
 
-  Permiten representar relaciones unidireccionales de manera precisa, lo que no es posible con grafos no dirigidos. 
+- **📊 Análisis eficiente:**  
+  Permiten estudiar propiedades como el flujo de información, jerarquías y dependencias.
 
-- **Análisis eficiente:**
+- **🌐 Aplicaciones diversas:**  
+  Se utilizan en:
+  - Mapas de rutas con sentido único
+  - Grafos de dependencias en compiladores
+  - Sistemas de recomendación
+  - Redes sociales con relaciones de "seguimiento"
 
-  Facilitan el análisis de propiedades específicas de las relaciones, como la dirección del flujo o las dependencias. 
+---
 
-- **Aplicaciones diversas:**
+## 🚀 Algoritmo de Dijkstra
 
-  Se utilizan en una amplia gama de aplicaciones, desde redes sociales hasta sistemas de recomendación.
+El **algoritmo de Dijkstra** es un algoritmo clásico para encontrar el **camino más corto** desde un nodo origen a todos los demás nodos en un grafo con **pesos no negativos**. Utiliza un enfoque **greedy** (voraz) y es fundamental en muchas aplicaciones como GPS, redes de computadoras y juegos.
 
-## Algoritmo de Dijkstra
+### 🧮 Lógica básica del algoritmo:
+1. Inicializa todas las distancias como infinitas, excepto el nodo origen (que vale 0).
+2. Selecciona el nodo no visitado con menor distancia.
+3. Actualiza las distancias de sus nodos vecinos si se encuentra un camino más corto.
+4. Repite hasta visitar todos los nodos.
 
-Algoritmo implementado en java
+---
+
+## 💻 Implementación en Java
 
 ```java
 import java.util.Arrays;
@@ -535,7 +548,575 @@ public class AlgoritmoDijkstra {
 }
 ```
 
+# 📅 Semana 11: Algoritmos Divide y Vencerás
 
+## 🔪 Estrategia "Divide y Vencerás"
+
+El paradigma **Divide y Vencerás** consiste en resolver problemas grandes dividiéndolos en subproblemas más pequeños y manejables, resolviéndolos recursivamente y combinando sus soluciones para construir la solución general.
+
+Este enfoque es clave en muchos algoritmos eficientes, incluyendo ordenamientos, búsquedas y cálculos numéricos.
+
+---
+
+### 🧩 Componentes de la estrategia:
+
+1. **Dividir**  
+   Se parte el problema en subproblemas más pequeños, normalmente en partes iguales.
+
+2. **Conquistar**  
+   Se resuelven los subproblemas, generalmente mediante recursión. Si el subproblema es lo suficientemente pequeño, se resuelve directamente (caso base).
+
+3. **Combinar**  
+   Se unen las soluciones de los subproblemas para formar la solución del problema original.
+
+---
+
+## 🔍 Mecanismo de Búsqueda Binaria
+
+La **búsqueda binaria** es un claro ejemplo del enfoque Divide y Vencerás. Consiste en reducir el espacio de búsqueda a la mitad en cada paso, eliminando sistemáticamente la mitad que no contiene el elemento buscado.
+
+### 📚 Ejemplo práctico:
+
+Buscar una palabra en un diccionario no implica revisar página por página. En su lugar, uno abre el libro por la mitad, evalúa, y decide si continuar a la izquierda o derecha. Este principio se aplica directamente en la búsqueda binaria.
+
+---
+
+## 💻 Código: Búsqueda Binaria en Java
+
+```java
+public class Busqueda {
+    public static int encontrar(int[] datos, int objetivo) {
+        int inicio = 0;
+        int fin = datos.length - 1;
+        
+        while (inicio <= fin) {
+            int medio = inicio + (fin - inicio) / 2;
+
+            if (datos[medio] == objetivo) {
+                return medio;
+            } else if (datos[medio] < objetivo) {
+                inicio = medio + 1;
+            } else {
+                fin = medio - 1;
+            }
+        }
+
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] numeros = {2, 4, 6, 8, 10, 12, 14, 16};
+        int buscado = 10;
+        int posicion = encontrar(numeros, buscado);
+
+        if (posicion != -1) {
+            System.out.println("El número " + buscado + " se encuentra en la posición: " + posicion);
+        } else {
+            System.out.println("El número " + buscado + " no fue encontrado.");
+        }
+    }
+}
+
+```
+
+# 📚 Semana 12: Algoritmos Divide y Vencerás (Parte 2)
+
+## 🧠 Consideraciones clave al usar Divide y Vencerás
+
+Cuando se diseña un algoritmo usando este paradigma, es importante tener en cuenta varios factores para garantizar eficiencia y corrección:
+
+- **🧮 Complejidad:**
+
+  Es fundamental analizar la complejidad de cada una de las etapas:
+  - Dividir
+  - Resolver subproblemas
+  - Combinar resultados
+  
+  Esto permite conocer el costo total del algoritmo y si es viable para conjuntos de datos grandes.
+
+- **🔁 Caso base:**
+
+  Se debe definir correctamente para evitar recursiones infinitas y garantizar que el algoritmo converja a una solución.
+
+- **🧩 Generalización:**
+
+  A menudo es necesario transformar el problema para que pueda ser resuelto recursivamente. Esta reformulación permite una solución más simple y eficiente.
+
+---
+
+## 📌 Merge Sort (Ordenamiento por Fusión)
+
+**Merge Sort** es uno de los algoritmos más representativos del paradigma **Divide y Vencerás**. Se utiliza ampliamente por su rendimiento estable, incluso en el peor de los casos.
+
+### 🔍 ¿Cómo funciona?
+
+1. **Divide:**
+
+   El arreglo original se divide recursivamente por la mitad hasta que se obtienen sub-arreglos con un solo elemento (que están ordenados por definición).
+
+2. **Conquista:**
+
+   Al llegar a los sub-arreglos de un solo elemento, se consideran ordenados. Se inicia el proceso de combinación.
+
+3. **Combina:**
+
+   Los sub-arreglos ordenados se fusionan de manera ordenada para formar un arreglo más grande, también ordenado. Este proceso continúa hasta recomponer el arreglo original, pero ahora en orden ascendente.
+
+### ⚙️ Complejidad temporal
+
+- Mejor caso: O(n log n)
+- Promedio: O(n log n)
+- Peor caso: O(n log n)
+
+---
+
+## 💻 Código en Java: Merge Sort
+
+```java
+public class OrdenamientoFusion {
+
+    public static void ordenar(int[] arreglo, int inicio, int fin) {
+        if (inicio < fin) {
+            int medio = (inicio + fin) / 2;
+
+            ordenar(arreglo, inicio, medio);
+            ordenar(arreglo, medio + 1, fin);
+
+            fusionar(arreglo, inicio, medio, fin);
+        }
+    }
+
+    public static void fusionar(int[] arreglo, int inicio, int medio, int fin) {
+        int tamaño1 = medio - inicio + 1;
+        int tamaño2 = fin - medio;
+
+        int[] izquierda = new int[tamaño1];
+        int[] derecha = new int[tamaño2];
+
+        for (int i = 0; i < tamaño1; ++i) {
+            izquierda[i] = arreglo[inicio + i];
+        }
+        for (int j = 0; j < tamaño2; ++j) {
+            derecha[j] = arreglo[medio + 1 + j];
+        }
+
+        int i = 0, j = 0;
+        int k = inicio;
+
+        while (i < tamaño1 && j < tamaño2) {
+            if (izquierda[i] <= derecha[j]) {
+                arreglo[k] = izquierda[i];
+                i++;
+            } else {
+                arreglo[k] = derecha[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < tamaño1) {
+            arreglo[k] = izquierda[i];
+            i++;
+            k++;
+        }
+
+        while (j < tamaño2) {
+            arreglo[k] = derecha[j];
+            j++;
+            k++;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] datos = {12, 11, 13, 5, 6, 7};
+        int n = datos.length;
+
+        System.out.println("Arreglo original:");
+        imprimir(datos);
+
+        ordenar(datos, 0, n - 1);
+
+        System.out.println("\nArreglo ordenado:");
+        imprimir(datos);
+    }
+
+    public static void imprimir(int[] arreglo) {
+        for (int valor : arreglo) {
+            System.out.print(valor + " ");
+        }
+        System.out.println();
+    }
+}
+```
+
+# 📚 Semana 13: Algoritmos Avanzados – Mediana y Exponenciación Rápida
+
+---
+
+## 📏 Cálculo de la Mediana en Dos Arreglos Ordenados
+
+Este problema busca encontrar la **mediana** de dos arreglos ordenados sin fusionarlos completamente. La solución eficiente utiliza una variante de la técnica **Divide y Vencerás**, reduciendo el tiempo de ejecución a **O(log(min(n, m)))**, siendo `n` y `m` los tamaños de los arreglos.
+
+### 🧠 Idea principal:
+
+En lugar de combinar completamente los dos arreglos, se busca una **partición óptima** que divida ambos arreglos en dos mitades tal que:
+
+- Todos los elementos en la mitad izquierda sean menores o iguales que los de la mitad derecha.
+- El número total de elementos a la izquierda sea igual al de la derecha (o difiera por uno si la cantidad total es impar).
+
+### 🧮 Pasos del algoritmo:
+
+1. Identificar el arreglo más pequeño para hacer la búsqueda binaria sobre él.
+2. Calcular una partición para ambos arreglos.
+3. Verificar si la partición es válida.
+4. Si lo es, calcular la mediana según el total de elementos (par o impar).
+5. Si no lo es, ajustar la búsqueda binaria.
+
+### ✅ Ventajas:
+
+- Alta eficiencia: O(log(min(n, m)))
+- No requiere espacio adicional.
+- Muy útil en bases de datos o flujos de datos ordenados.
+
+---
+
+## 🔢 Exponenciación Rápida (Exponentiation by Squaring)
+
+La **exponenciación rápida** es una técnica utilizada para calcular potencias de un número de forma eficiente, especialmente cuando el exponente es muy grande. Se basa en la propiedad:
+
+- Si el exponente es par:  
+  `a^n = (a^(n/2))^2`
+- Si el exponente es impar:  
+  `a^n = a * (a^((n-1)/2))^2`
+
+### 🧠 ¿Por qué es útil?
+
+- Reduce la complejidad de O(n) a O(log n)
+- Fundamental en aplicaciones de criptografía y teoría de números.
+- Evita desbordamientos y mejora el rendimiento en cómputos intensivos.
+
+---
+
+## 💻 Código en Java
+
+### Mediana de dos arreglos ordenados
+
+```java
+public class MedianaDosArreglos {
+
+    public static double encontrarMediana(int[] A, int[] B) {
+        if (A.length > B.length) return encontrarMediana(B, A);
+
+        int m = A.length;
+        int n = B.length;
+        int imin = 0, imax = m, mitad = (m + n + 1) / 2;
+
+        while (imin <= imax) {
+            int i = (imin + imax) / 2;
+            int j = mitad - i;
+
+            if (i < m && B[j - 1] > A[i]) {
+                imin = i + 1;
+            } else if (i > 0 && A[i - 1] > B[j]) {
+                imax = i - 1;
+            } else {
+                int maxIzquierda = 0;
+                if (i == 0) maxIzquierda = B[j - 1];
+                else if (j == 0) maxIzquierda = A[i - 1];
+                else maxIzquierda = Math.max(A[i - 1], B[j - 1]);
+
+                if ((m + n) % 2 == 1) return maxIzquierda;
+
+                int minDerecha = 0;
+                if (i == m) minDerecha = B[j];
+                else if (j == n) minDerecha = A[i];
+                else minDerecha = Math.min(A[i], B[j]);
+
+                return (maxIzquierda + minDerecha) / 2.0;
+            }
+        }
+
+        return 0.0;
+    }
+
+    public static void main(String[] args) {
+        int[] nums1 = {1, 3, 8};
+        int[] nums2 = {7, 9, 10, 11};
+
+        double mediana = encontrarMediana(nums1, nums2);
+        System.out.println("Mediana combinada: " + mediana);
+    }
+}
+```
+
+### Exponenciación rápida
+
+```java
+public class ExponenciacionRapida {
+
+    public static long potencia(long base, long exponente) {
+        long resultado = 1;
+
+        while (exponente > 0) {
+            if ((exponente & 1) == 1) {
+                resultado *= base;
+            }
+            base *= base;
+            exponente >>= 1; // Equivalente a dividir entre 2
+        }
+
+        return resultado;
+    }
+
+    public static void main(String[] args) {
+        long base = 2;
+        long exponente = 10;
+        System.out.println("Resultado: " + potencia(base, exponente)); // 1024
+    }
+}
+```
+
+# 📚 Semana 14: Multiplicación de Matrices
+
+---
+
+## ✏️ Introducción
+
+La **multiplicación de matrices** es una operación fundamental en matemáticas, ciencias computacionales, gráficos por computadora, inteligencia artificial y más. A nivel algorítmico, representa una oportunidad para analizar diferentes enfoques con distintas eficiencias computacionales.
+
+---
+
+## 📐 Definición Formal
+
+Dadas dos matrices:
+
+- **A** de dimensión m x n
+- **B** de dimensión n x p
+
+La matriz **C = A × B** tendrá dimensión m x p, y cada elemento de **C** se calcula como:
+
+C[i][j] = A[i][0] × B[0][j] + A[i][1] × B[1][j] + ... + A[i][n-1] × B[n-1][j]
+
+
+---
+
+## 🔍 Complejidad Computacional
+
+- **Algoritmo clásico:** O(n³)
+- **Algoritmo de Strassen:** O(n^2.81)
+- **Algoritmos más avanzados:** Existen métodos incluso más eficientes (como Coppersmith–Winograd), aunque son complejos y poco prácticos en muchos casos reales.
+
+---
+
+## 🧠 Consideraciones importantes
+
+- Para multiplicar dos matrices, **el número de columnas de la primera debe coincidir con el número de filas de la segunda**.
+- La multiplicación **no es conmutativa**: A × B ≠ B × A en general.
+- Se puede aplicar en cadenas de transformaciones, rotaciones, cálculos de redes neuronales, entre otros.
+
+---
+
+## 💻 Código Java: Multiplicación Clásica de Matrices
+
+```java
+public class StrassenMatrixMultiplication {
+
+    public static int[][] strassen(int[][] A, int[][] B) {
+        int n = A.length;
+        
+        // Caso base: matriz 1x1
+        if (n == 1) {
+            int[][] C = new int[1][1];
+            C[0][0] = A[0][0] * B[0][0];
+            return C;
+        }
+
+        // Dividir matrices en 4 submatrices
+        int newSize = n / 2;
+        int[][] A11 = new int[newSize][newSize];
+        int[][] A12 = new int[newSize][newSize];
+        int[][] A21 = new int[newSize][newSize];
+        int[][] A22 = new int[newSize][newSize];
+        int[][] B11 = new int[newSize][newSize];
+        int[][] B12 = new int[newSize][newSize];
+        int[][] B21 = new int[newSize][newSize];
+        int[][] B22 = new int[newSize][newSize];
+
+        // Llenar submatrices
+        split(A, A11, 0, 0);
+        split(A, A12, 0, newSize);
+        split(A, A21, newSize, 0);
+        split(A, A22, newSize, newSize);
+        split(B, B11, 0, 0);
+        split(B, B12, 0, newSize);
+        split(B, B21, newSize, 0);
+        split(B, B22, newSize, newSize);
+
+        // Calcular M1 a M7
+        int[][] M1 = strassen(add(A11, A22), add(B11, B22));
+        int[][] M2 = strassen(add(A21, A22), B11);
+        int[][] M3 = strassen(A11, subtract(B12, B22));
+        int[][] M4 = strassen(A22, subtract(B21, B11));
+        int[][] M5 = strassen(add(A11, A12), B22);
+        int[][] M6 = strassen(subtract(A21, A11), add(B11, B12));
+        int[][] M7 = strassen(subtract(A12, A22), add(B21, B22));
+
+        // Calcular C submatrices
+        int[][] C11 = add(subtract(add(M1, M4), M5), M7);
+        int[][] C12 = add(M3, M5);
+        int[][] C21 = add(M2, M4);
+        int[][] C22 = add(subtract(add(M1, M3), M2), M6);
+
+        // Combinar submatrices en matriz resultado
+        int[][] C = new int[n][n];
+        join(C11, C, 0, 0);
+        join(C12, C, 0, newSize);
+        join(C21, C, newSize, 0);
+        join(C22, C, newSize, newSize);
+
+        return C;
+    }
+
+    // Operaciones auxiliares
+
+    public static int[][] add(int[][] A, int[][] B) {
+        int n = A.length;
+        int[][] result = new int[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                result[i][j] = A[i][j] + B[i][j];
+        return result;
+    }
+
+    public static int[][] subtract(int[][] A, int[][] B) {
+        int n = A.length;
+        int[][] result = new int[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                result[i][j] = A[i][j] - B[i][j];
+        return result;
+    }
+
+    public static void split(int[][] parent, int[][] child, int iB, int jB) {
+        for (int i = 0; i < child.length; i++)
+            for (int j = 0; j < child.length; j++)
+                child[i][j] = parent[i + iB][j + jB];
+    }
+
+    public static void join(int[][] child, int[][] parent, int iB, int jB) {
+        for (int i = 0; i < child.length; i++)
+            for (int j = 0; j < child.length; j++)
+                parent[i + iB][j + jB] = child[i][j];
+    }
+
+    // Método de prueba
+    public static void main(String[] args) {
+        int[][] A = {
+            {7, 6, 9, 4},
+            {8, 5, 3, 2},
+            {7, 7, 9, 9},
+            {4, 3, 8, 5}
+        };
+
+        int[][] B = {
+            {3, 2, 9, 5},
+            {7, 5, 6, 4},
+            {4, 6, 9, 1},
+            {9, 3, 8, 7}
+        };
+
+        int[][] C = strassen(A, B);
+
+        System.out.println("Resultado de la multiplicación:");
+        for (int[] row : C) {
+            for (int val : row)
+                System.out.print(val + "\t");
+            System.out.println();
+        }
+    }
+}
+```
+
+# 📚 Semana 15: Algoritmos Probabilistas
+
+---
+
+## 🎲 ¿Qué son los algoritmos probabilistas?
+
+Los **algoritmos probabilistas** son algoritmos que, durante su ejecución, toman decisiones basadas en valores aleatorios. Estos algoritmos no siempre garantizan el mismo resultado o tiempo de ejecución, pero pueden ofrecer soluciones rápidas, aproximadas o altamente eficientes en promedio.
+
+---
+
+## ⚙️ Características
+
+- **Uso del azar:** Incorporan decisiones basadas en números aleatorios.
+- **Rendimiento promedio:** Suelen ser más rápidos en la práctica que los algoritmos deterministas.
+- **No deterministas:** Pueden producir distintos resultados con la misma entrada, dependiendo del azar.
+- **Alta aplicabilidad:** Utilizados en criptografía, simulación, optimización, y machine learning.
+
+---
+
+## 📌 Tipos
+
+- **Monte Carlo:** Devuelven una respuesta probablemente correcta. Pueden errar, pero en un rango de error controlado.
+- **Las Vegas:** Siempre devuelven la respuesta correcta, pero su tiempo de ejecución varía debido al azar.
+- **Algoritmos de estimación:** Utilizan el azar para aproximar resultados (por ejemplo, estimar π o áreas).
+
+---
+
+## 🎯 Ejemplo: Generación de números aleatorios
+
+Una de las bases de los algoritmos probabilistas es la **generación de números pseudoaleatorios**. Uno de los métodos más clásicos para ello es el **método congruencial lineal (MCL)**.
+
+---
+
+## 🔢 Método Congruencial Lineal (MCL)
+
+Este algoritmo genera una secuencia de números pseudoaleatorios mediante la siguiente fórmula:
+
+Xₙ₊₁ = (a * Xₙ + c) mod m
+
+
+- **X₀**: semilla (valor inicial)
+- **a**: multiplicador
+- **c**: incremento
+- **m**: módulo
+- **Xₙ**: n-ésimo número generado
+
+---
+
+## 💻 Código Java: Método Congruencial Lineal
+
+```java
+public class MetodoCongruencialLineal {
+
+    public static int[] generarNumeros(int semilla, int a, int c, int m, int cantidad) {
+        int[] numeros = new int[cantidad];
+        numeros[0] = semilla;
+
+        for (int i = 1; i < cantidad; i++) {
+            numeros[i] = (a * numeros[i - 1] + c) % m;
+        }
+
+        return numeros;
+    }
+
+    public static void main(String[] args) {
+        int semilla = 7;
+        int a = 5;
+        int c = 3;
+        int m = 16;
+        int cantidad = 10;
+
+        int[] resultados = generarNumeros(semilla, a, c, m, cantidad);
+
+        System.out.println("Números pseudoaleatorios generados:");
+        for (int num : resultados) {
+            System.out.print(num + " ");
+        }
+    }
+}
+```
 
 # REFERENCIAS BIBLIOGRÁFICAS
 
