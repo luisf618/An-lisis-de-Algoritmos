@@ -454,7 +454,8 @@ public class Principal {
 Son una estructura de datos que representa relaciones entre elementos, donde cada relación (arista) tiene una dirección específica, indicando un camino de un elemento (vértice) a otro. A diferencia de los grafos no dirigidos, donde las relaciones son bidireccionales, los grafos dirigidos representan relaciones unidireccionales, como el flujo de tráfico en una calle o las dependencias en un proyecto de software.
 
 ### Ventajas de usar grafos dirigidos:
-- **Modelado preciso:
+
+- **Modelado preciso:**
 
   Permiten representar relaciones unidireccionales de manera precisa, lo que no es posible con grafos no dirigidos. 
 
