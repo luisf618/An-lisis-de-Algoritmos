@@ -1088,32 +1088,35 @@ Xₙ₊₁ = (a * Xₙ + c) mod m
 ## 💻 Código Java: Método Congruencial Lineal
 
 ```java
-public class MetodoCongruencialLineal {
-
-    public static int[] generarNumeros(int semilla, int a, int c, int m, int cantidad) {
-        int[] numeros = new int[cantidad];
-        numeros[0] = semilla;
-
-        for (int i = 1; i < cantidad; i++) {
-            numeros[i] = (a * numeros[i - 1] + c) % m;
-        }
-
-        return numeros;
-    }
+public class GeneradorPseudoaleatorio {
 
     public static void main(String[] args) {
-        int semilla = 7;
-        int a = 5;
-        int c = 3;
-        int m = 16;
         int cantidad = 10;
+        long semilla = 12345;
 
-        int[] resultados = generarNumeros(semilla, a, c, m, cantidad);
+        double[] numeros = generarPseudoaleatorios(semilla, cantidad);
 
         System.out.println("Números pseudoaleatorios generados:");
-        for (int num : resultados) {
-            System.out.print(num + " ");
+        for (double num : numeros) {
+            System.out.println(num);
         }
+    }
+
+    public static double[] generarPseudoaleatorios(long semilla, int cantidad) {
+        // Parámetros del generador (Numerical Recipes)
+        long a = 1664525;
+        long c = 1013904223;
+        long m = (long) Math.pow(2, 32);
+
+        double[] resultados = new double[cantidad];
+        long x = semilla;
+
+        for (int i = 0; i < cantidad; i++) {
+            x = (a * x + c) % m;
+            resultados[i] = (double) x / m; // Normalización a [0, 1]
+        }
+
+        return resultados;
     }
 }
 ```
